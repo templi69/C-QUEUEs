@@ -1,0 +1,314 @@
+#include<iostream>
+using namespace std;
+
+
+template<class t>
+class AbstractQueue{
+
+	
+	
+	public:
+		virtual void enQueue(t value) = 0;
+		virtual t deQueue() = 0;
+		virtual t front() const = 0;
+		virtual bool isEmpty() const = 0;
+		virtual bool isFull() const = 0;
+		virtual ~AbstractQueue() {}
+	};
+
+	template <typename t>
+	class myQueue : protected AbstractQueue<t> {
+
+		t arr[];
+		int Front=0;
+		int Rear=0;
+		int Size = 0;
+	public:
+		void size(int insize) {
+			Size = insize;
+			t arr = new t[5]; }
+		void enQueue(t value) {
+			arr[Rear] = value;
+			Rear++;
+					}// : Adds an element to the end / rear of the Queue.
+		t deQueue() {
+			cout<<arr[Rear];
+			Rear--; }// : Removes and returns the front element.
+		t front(){ cout<<arr[Front] ; } //: Returns the front element without removing it.
+		bool isEmpty() { 
+			if (Rear < size) {
+				return 1;
+						}
+			else { return 0; }
+		; } //: Returns true if the queue is empty.
+		bool isFull() {
+			if (Rear > size) { return 1; }
+		else { return 0; }
+		}//: Returns true if th e queue is full.
+	};
+
+	int main(){                
+	
+		myQueue<int> ar;
+		ar.size;
+		cout << "hi";
+		return 0;
+	
+	
+	
+	}
+
+
+
+
+
+
+
+
+/////////////backup task 1 
+
+
+
+
+#include<iostream>
+using namespace std;
+
+template<class t>
+class AbstractQueue {
+public:
+    virtual void enQueue(t value) = 0;
+    virtual t deQueue() = 0;
+    virtual t front() const = 0;
+    virtual bool isEmpty() const = 0;
+    virtual bool isFull() const = 0;
+    virtual ~AbstractQueue() {}
+};
+
+template <typename t>
+class myQueue : protected AbstractQueue<t> {
+    t* arr;         
+    int Front;    
+    int Rear;       
+    int Size;       
+public:
+    myQueue(int insize) : Size(insize), Front(0), Rear(0) {
+        arr = new t[Size];   
+    }
+
+    ~myQueue() {
+        delete[] arr;  
+    }
+
+    void enQueue(t value) override {
+        if (isFull()) {
+            cout << "Queue is full!" << endl;
+            return;
+        }
+        arr[Rear] = value;
+        Rear = (Rear + 1) % Size;  // Circular queue logic
+    }
+
+    t deQueue() override {
+        if (isEmpty()) {
+            cout << "Queue is empty!" << endl;
+            return t();  
+        }
+        t value = arr[Front];
+        Front = (Front + 1) % Size;  
+        return value;
+    }
+
+    t front() const override {
+        if (isEmpty()) {
+            cout << "Queue is empty!" << endl;
+            return t();  
+        }
+        return arr[Front];
+    }
+
+    bool isEmpty() const override {
+        return Front == Rear;
+    }
+
+    bool isFull() const override {
+        return (Rear + 1) % Size == Front;
+    }
+
+    
+
+    void display() { for (int i = 0; i < 5; i++) { cout<< " queue ["<< i << " ] " << arr[i]<<endl; } }
+
+};
+
+int main() {
+    myQueue<int> ar(5);  
+
+    ar.enQueue(1);
+    ar.enQueue(2);
+    ar.enQueue(3);
+
+    cout << "Front element: " << ar.front() << endl;
+    cout << "Dequeueing: " << ar.deQueue() << endl;
+    cout << " displaying "<<endl;
+    cout << "---------------------------------------- displaying ----------------------------------------" << endl;
+    ar.display();
+    cout << "-----------------------------------------------------------------------------------------------" << endl;
+    cout << "Front element: " << ar.front() << endl;
+
+    return 0;
+}
+/////////////// baskup task 2   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include<iostream>
+using namespace std;
+
+template<typename t>
+class mystack {
+protected:
+	int size;
+	t* enqueuearr;	
+	t* dequeuearr;
+	int index = 0;
+public:
+	mystack(int insize) {
+
+		size = insize;
+		enqueuearr = new t[size];
+		dequeuearr = new t[size];
+	}
+	void push() {
+		if (!isfull()) {
+			cout << " move your value in queue " << endl;
+			t value;
+			cin >> value;
+			enqueuearr[index] = value;
+			index++;
+		}
+		else { cout << " queue is full "; }
+	}
+	void pop() {
+		if (!isempty()) {
+			cout << " shown  " << endl;
+			cout << enqueuearr[index];
+			enqueuearr[index] = 0;
+			// someone told me to set myarr[index]= t() // to default value of t as it is more logical than just setting it to 0 "of int" like ;
+			// myarr[index] = t();
+			index--;
+		}
+		else { cout << " Queue is empty " << endl; }
+	}
+	void dequeue() {
+		if (!isempty()) {
+			cout << " reversed  " << endl;
+			for (int i = 0; i < size; i++){
+				pop().enqueuearr[i] = push().dequeuearr[i];
+		}
+			
+			for (int i = 0; i < size; i++) {
+				cout<<dequeuearr[i];
+			}
+			// someone told me to set myarr[index]= t() // to default value of t as it is more logical than just setting it to 0 "of int" like ;
+			// myarr[index] = t();
+			
+		}
+		else { cout << " Queue is empty " << endl; }
+	}
+	bool isfull() {
+		if (index == size) { return true; }
+		else { return false; }
+	}
+	bool isempty() {
+		if (index == 0) { return true; }
+		else { return false; }
+	}
+	void display() { for (int i = 0; i < size; i++) { cout << " spot [" << i << "] is  " << enqueuearr[i] << endl; } }
+};
+int main() {
+
+	int size;
+	cout << " enter size of Queue" << endl;
+	cin >> size;
+	mystack<int>s(size);
+
+	int option = 0;
+
+	for (int i = 0; i < 100; i++) {
+		cout << "_____________________________________________________  " << endl;
+		cout << "_____________________________________________________  " << endl;
+		cout << " choose options   " << endl;
+		cout << " * press | 1 | to display  " << endl;
+		cout << " * press | 2 | to Enqueue   " << endl;
+		cout << " * press | 3 | to Dequeue  " << endl;
+		cout << "_____________________________________________________  " << endl;
+		cout << "_____________________________________________________  " << endl;
+		cin >> option;
+		if (option == 1) {
+			cout << "_____________________________________________________  " << endl;
+			cout << "_____________________________________________________  " << endl;
+			s.display();
+			cout << "_____________________________________________________  " << endl;
+			cout << "_____________________________________________________  " << endl;
+		}
+
+		else if (option == 2) {
+			cout << "_____________________________________________________  " << endl;
+			cout << "_____________________________________________________  " << endl;
+			s.push();
+			cout << "_____________________________________________________  " << endl;
+			cout << "_____________________________________________________  " << endl;
+		}
+		else if (option == 3) {
+			cout << "_____________________________________________________  " << endl;
+			cout << "_____________________________________________________  " << endl;
+			s.pop();
+			cout << "_____________________________________________________  " << endl;
+			cout << "_____________________________________________________  " << endl;
+		}
+		else if (option == 4) {       
+			cout << "_____________________________________________________  " << endl;
+			cout << "_____________________________________________________  " << endl;
+			s.dequeue();
+			cout << "_____________________________________________________  " << endl;
+			cout << "_____________________________________________________  " << endl;
+		}
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
